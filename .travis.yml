@@ -1,0 +1,24 @@
+sudo: required
+language: groovy
+services:
+- docker
+jdk:
+- oraclejdk8
+env:
+  global:
+  - secure: feDdJuPYPDmM6Z9QrtUjuQm+ccKSCWW7AGcNW8p+2gtW5v9TE0sSZEDF5n4ZvU3B1/vRvmmZdek2aqNZQtc3wPPgyH+AmaDfidCw4xBELKuTC6NV3NrSlSK/bIjmC/yqDC84vVtUiNIbAGFucZ/nG4cCoIJ93j08oIIOx1d3V9fFAnUvEceZ6yjrAzYPzl+Xx8iA1KZhECZqhI5TUX9ZlCXJX+lswGrNmNNCPb60LAO19/Ddqt0dn8Riskxj0MmT/fdxFgYVkr017bZVchC6R2QLA57WVVscbcwRy6R3pVyTbJuoZ8aLCBTBhrGwhcsAvwgDz+yoT+m5Wm8ZOsuGLpfGN7Mrn/+wle4WNT+Xg786hiyomxUL7sQehreSdzTkHc/aqi6YAsf/z7UZonVK3vAv2V39LNZVJZWGU0/Lt7LfZsAxnb628s2SJYLGpaUdTYXYTA/WFTDLg7EPXM0nxaRZqv1G5BRA2J4iBlDSfqNIiK1tQvm4iainlOMnfc0WzGqoDB4Y9AAy2UiyOM5NWj4FRUsO0SeEwWv+XT4NxVkzKxbQV/6Ds5Xs4i7zx58Rel39rWEHZGHVnPcnA4cojYaDYWba/yHc7SsDxOu9HV6FqxImh2VE2gn1WSPSGT/2PLN36zfOMrE1eZnnGRGAvVppl2p7hzA69zcCJUK26/o=
+  - secure: GFZAoJ8mpCRCnRViKm749trL+qIjAXQiqyXfc9dP1rrucHTM+tOhS9Q38Aw0hoD/8Wcf8b99pQZAUnPVdavLQrzwrZHKHL6qG1ijPdhu/KEoRqsAYtBiJJYZiAk7KhO1gGu7i2hhS4dU5W0BhJJEJMDakkxCqJRMtrsy9jxtXJr71TD6G9bgV4H9xwkrkiHReTIU4DBtvrskwqHVXpqNZjDa9q7OeFCxAJTLtidoOpUOhcpKTbNYTotmB9bCM5RjxFcFbgubLcEAkW+2PGvuohBAzL7l2wUXOurcusHPYBNs+0W96BSRx2HygFxPaCmtbXWZVsOY0DFIg9faY48C4ID2rtuDEPhvCUz6rVP4UR987v96UeG+YrwtkGl0Cf/biedgRtzZxyWv6Cyh5QxCdJZ4am7JvUwgqC6FIKoqZ/a0YALtftPO/BFExA0XBOvtJG0bQkoreMDTk7gI8GQpXpPXpfWM3lvnmQ2WSVym6IGRnzhAZRE3U3XSJIgckbW2AhMryeA9Tc2acmZf5qJfITnWNGAYhZwCjGtsc8vbxsmwwL/4kyjokKlqfJuKg5VaIsejuwyTD2gMA3Pq9bmK7eVZKMyvvBue9EPyJPmklW/cgNpeeGNxIclLGwBIymnoAAmxctOZ8+axNJrsI528+URAoAYjOdWo1E9l/7TjG6w=
+branches:
+  only:
+  - master
+script:
+- ./gradlew check
+- ./gradlew assemble
+- docker build -t $DOCKER_USER/simpleshift .
+- docker tag $DOCKER_USER/config-server $DOCKER_USER/simpleshift:latest
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- docker push $DOCKER_USER/simpleshift
+notifications:
+  email:
+    on_failure: change
+    on_success: change

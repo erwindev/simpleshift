@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/erwindev/simpleshift.svg?branch=master)](https://travis-ci.org/erwindev/simpleshift)
 # Simple Shift
 
 ## Summary
