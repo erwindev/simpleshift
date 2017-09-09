@@ -15,7 +15,7 @@ script:
 - ./gradlew check
 - ./gradlew assemble
 - docker build -t $DOCKER_USER/simpleshift .
-- docker tag $DOCKER_USER/config-server $DOCKER_USER/simpleshift:latest
+- docker tag $DOCKER_USER/simpleshift $DOCKER_USER/simpleshift:latest
 - docker login -u $DOCKER_USER -p $DOCKER_PASS
 - docker push $DOCKER_USER/simpleshift
 notifications:
