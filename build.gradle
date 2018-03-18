@@ -5,6 +5,10 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'nebula.nebula-release'
+apply plugin: 'maven-publish'
+
+nebulaRelease{
+}
 
 jar {
     baseName = 'simpleshift'
@@ -58,13 +62,15 @@ dependencyManagement {
     }
 }
 
-repositories {
-    maven{
-        credentials{
-            artifactory_username
-            artifactory_password
+publishing {
+    repositories {
+        maven {
+            credentials {
+                artifactory_username
+                artifactory_password
+            }
+            url artifactory_url
         }
-        url artifactory_url
     }
 }
 
