@@ -67,10 +67,10 @@ apply plugin: 'maven-publish'
 
 publishing {
     repositories {
-        maven {
-            credentials {
-                artifactory_username
-                artifactory_password
+        maven{
+            credentials{
+                username artifactory_username
+                password artifactory_password
             }
             url artifactory_url
         }
