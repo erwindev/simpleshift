@@ -32,8 +32,6 @@ buildscript {
         classpath("com.netflix.nebula:gradle-dependency-lock-plugin:5.0.4")
         classpath("com.netflix.nebula:nebula-release-plugin:6.0.0")
         classpath("com.netflix.nebula:nebula-publishing-plugin:7.0.10")
-        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.0.1")
-
     }
 }
 
@@ -63,8 +61,6 @@ apply plugin: 'nebula.maven-base-publish'
 nebulaRelease{
 }
 
-apply plugin: 'maven-publish'
-
 publishing {
     repositories {
         maven{
@@ -73,12 +69,6 @@ publishing {
                 password artifactory_password
             }
             url artifactory_url
-        }
-    }
-
-    publications{
-        nebula(MavenPublication){
-            from components.java
         }
     }
 }
