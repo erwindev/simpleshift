@@ -72,5 +72,11 @@ publishing {
             url artifactory_url
         }
     }
+
+    publications{
+        nebula(MavenPublication){
+            from components.java
+        }
+    }
 }
 
