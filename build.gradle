@@ -4,12 +4,6 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'nebula.nebula-release'
-apply plugin: 'nebula.maven-base-publish'
-apply plugin: 'maven-publish'
-
-nebulaRelease{
-}
 
 jar {
     baseName = 'simpleshift'
@@ -62,6 +56,14 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.M8"
     }
 }
+
+apply plugin: 'nebula.nebula-release'
+apply plugin: 'nebula.maven-base-publish'
+
+nebulaRelease{
+}
+
+apply plugin: 'maven-publish'
 
 publishing {
     repositories {
