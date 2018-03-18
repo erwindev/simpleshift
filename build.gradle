@@ -58,3 +58,13 @@ dependencyManagement {
     }
 }
 
+repositories {
+    maven{
+        credentials{
+            artifactory_username
+            artifactory_password
+        }
+        url artifactory_url
+    }
+}
+
