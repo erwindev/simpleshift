@@ -1,9 +1,11 @@
-group 'com.erwin'
+version = '1.0.0-SNAPSHOT'
+group = 'com.erwin'
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "nebula.release"
 
 jar {
     baseName = 'simpleshift'
@@ -29,9 +31,8 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE")
-        classpath("com.netflix.nebula:gradle-dependency-lock-plugin:5.0.4")
-        classpath("com.netflix.nebula:nebula-release-plugin:6.0.0")
-        classpath("com.netflix.nebula:nebula-publishing-plugin:7.0.10")
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1"
+        classpath "com.netflix.nebula:nebula-release-plugin:6.3.0"
     }
 }
 
@@ -55,24 +56,28 @@ dependencyManagement {
     }
 }
 
-apply plugin: 'nebula.nebula-release'
-apply plugin: 'nebula.maven-base-publish'
+apply plugin: 'maven-publish'
+apply plugin: "com.jfrog.artifactory"
 
-release{
-    defaultVersionStrategy = org.ajoberstar.gradle.git.release.opinion.Strategies.SNAPSHOT
-}
 
-tasks.release.finalizedBy tasks.publish
-
-publishing {
-    repositories {
-        maven{
-            credentials{
-                username "${artifactory_username}"
-                password "${artifactory_password}"
-            }
-            url "${artifactory_url} + ${project.version.toString().endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}"
+artifactory {
+    contextUrl = "${artifactory_url}"
+    publish {
+        repository {
+            repoKey = 'erwin-repo'
+            username = "${artifactory_username}"
+            password = "${artifactory_password}"
+        }
+        defaults {
+            publications ('mavenJava')
         }
     }
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
