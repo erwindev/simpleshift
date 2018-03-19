@@ -57,24 +57,21 @@ dependencyManagement {
 
 apply plugin: 'nebula.nebula-release'
 apply plugin: 'nebula.maven-base-publish'
-apply plugin: 'maven-publish'
 
-nebulaRelease{
+release{
+    defaultVersionStrategy = org.ajoberstar.gradle.git.release.opinion.Strategies.SNAPSHOT
 }
+
+tasks.release.finalizedBy tasks.publish
 
 publishing {
     repositories {
         maven{
             credentials{
-                username artifactory_username
-                password artifactory_password
+                username "${artifactory_username}"
+                password "${artifactory_password}"
             }
-            url artifactory_url
-        }
-    }
-    publications {
-        nebula(MavenPublication) {
-            from components.java
+            url "${artifactory_url} + ${project.version.toString().endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}"
         }
     }
 }
