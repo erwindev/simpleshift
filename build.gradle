@@ -1,11 +1,9 @@
-version = '1.0.0-SNAPSHOT'
 group = 'com.erwin'
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: "nebula.release"
 
 jar {
     baseName = 'simpleshift'
@@ -57,19 +55,30 @@ dependencyManagement {
     }
 }
 
-apply plugin: "com.jfrog.artifactory"
-apply plugin: "nebula.maven-base-publish"
+def artifactory_url = hasProperty('artifactory_url') ? artifactory_url : System.getenv('artifactory_url')
+if (artifactory_url != null) {
 
-artifactory {
-    contextUrl = "${artifactory_url}"
-    publish {
-        repository {
-            repoKey = 'erwin-repo'
-            username = "${artifactory_username}"
-            password = "${artifactory_password}"
-        }
-        defaults {
-            publications ('mavenJava')
+    apply plugin: "nebula.release"
+
+    def artifactory_username = hasProperty('artifactory_username') ? artifactory_username : System.getenv('artifactory_username')
+    def artifactory_password = hasProperty('artifactory_password') ? artifactory_password : System.getenv('artifactory_password')
+    def artifactory_repo = hasProperty('artifactory_repo') ? artifactory_repo : System.getenv('artifactory_repo')
+
+
+    apply plugin: "com.jfrog.artifactory"
+    apply plugin: "nebula.maven-base-publish"
+
+    artifactory {
+        contextUrl = "${artifactory_url}"
+        publish {
+            repository {
+                repoKey = "${artifactory_repo}"
+                username = "${artifactory_username}"
+                password = "${artifactory_password}"
+            }
+            defaults {
+                publications('mavenJava')
+            }
         }
     }
 }
