@@ -74,4 +74,9 @@ $ open http://simpleshift-myproject.192.168.99.101.nip.io/
 ### Deleting the application in OpenShift                     
 ```                                                           
 $ oc delete all --selector app=simpleshift                  
-```                                                           
+```                                        
+
+### Pushing to Artifactory
+```
+$ gradle -Dorg.ajoberstar.grgit.auth.username='xxxxxxx' -Dorg.ajoberstar.grgit.auth.password='xxxxxxxx' candidate
+```                   

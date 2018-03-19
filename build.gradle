@@ -63,7 +63,12 @@ if (artifactory_url != null) {
     def artifactory_username = hasProperty('artifactory_username') ? artifactory_username : System.getenv('artifactory_username')
     def artifactory_password = hasProperty('artifactory_password') ? artifactory_password : System.getenv('artifactory_password')
     def artifactory_repo = hasProperty('artifactory_repo') ? artifactory_repo : System.getenv('artifactory_repo')
+    def git_username = hasProperty('git_username') ? git_username : System.getenv('git_username')
+    def git_password = hasProperty('git_password') ? git_password : System.getenv('git_password')
 
+
+    System.setProperty('org.ajoberstar.grgit.auth.username', git_username)
+    System.setProperty('org.ajoberstar.grgit.auth.password', git_password)
 
     apply plugin: "com.jfrog.artifactory"
     apply plugin: "nebula.maven-base-publish"
